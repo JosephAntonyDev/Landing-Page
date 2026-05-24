@@ -1,38 +1,30 @@
-<div class="text-container-start">
-    <h1>¡Animes más vistos!</h1>
-    <div class="container-v">
-        <div class="img-start-v">
-           <img src="assets/todos.png" alt="" class="img-v">
-        </div>
-        <div class="text-start-v">
-               <h2>¿En que nos basamos para
-                dar este top?</h2>
-                <p>Para elaborar nuestro top de animes más vistos, tomamos en cuenta varios factores clave: las críticas de expertos y fans, que aportan una valoración detallada de
-                    la calidad y la historia; la calificación del anime en distintas plataformas, que refleja la aceptación
-                    y el impacto entre el público; y el éxito medido por la cantidad de visualizaciones y 
-                   popularidad a nivel global. 
-                   Estos elementos nos permiten ofrecerte un ranking fiel a las preferencias y tendencias actuales 
-                   del mundo del anime.</p>
-        </div>
-    </div>
+<section class="mas-vistos">
+  <div class="container">
+    <app-section-title title="Los Más Vistos" subtitle="Nuestra selección basada en popularidad global"></app-section-title>
 
-</div>
-<div class="top-animes-container-v">
-    <h2>¡ TOP 5 Más vistos!</h2>
-    
-    <div *ngFor="let anime of animesTop" class="anime-card-v">
-      <h3>{{ anime.top }}. {{ anime.name }}</h3>
-
-      <div class="anime-card2-v"> 
-      <div class="anime-content-v">
-        <img [src]="anime.img" alt="{{ anime.name }} image" class="anime-img-v">
-        
-      </div>
-      <div class="anime-details-v">
-        <h4>Sinopsis</h4>
-        <p>{{ anime.sinopsis }}</p>
-      </div>
-    </div>
+    <div class="ranking-list">
+      <article *ngFor="let anime of animesTop" class="ranking-card reveal">
+        <div class="ranking-poster-wrapper">
+          <div class="ranking-number">{{ anime.top }}</div>
+          <div class="ranking-poster">
+            <img [src]="anime.img" [alt]="anime.name" loading="lazy">
+            <div class="ranking-overlay">
+              <span class="ranking-play"><i class="fas fa-play"></i></span>
+            </div>
+            <span class="ranking-genre badge badge-orange" *ngIf="anime.genre">{{ anime.genre }}</span>
+          </div>
+        </div>
+        <div class="ranking-info">
+          <h3>{{ anime.name }}</h3>
+          <div class="ranking-meta">
+            <span class="star-rating" *ngIf="anime.rating">
+              <i class="fas fa-star"></i>
+              <span class="score">{{ anime.rating }}</span>
+            </span>
+            <span class="ranking-eps" *ngIf="anime.episodes">{{ anime.episodes }} eps</span>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
-  
+</section>

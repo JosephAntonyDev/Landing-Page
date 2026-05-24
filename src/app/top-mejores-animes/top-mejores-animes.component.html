@@ -1,19 +1,31 @@
-<div class="top-animes-container">
-    <h2>Los 5 mejores animes del mundo <br> en los últimos años.</h2>
-    
-    <div *ngFor="let anime of animesTop" class="anime-card">
-      <h3>{{ anime.top }}. {{ anime.name }}</h3>
+<div class="container">
+  <app-section-title title="Los 5 Mejores" subtitle="Rankings basados en crítica, calificación y éxito"></app-section-title>
 
-      <div class="anime-card2"> 
-      <div class="anime-content">
-        <img [src]="anime.img" alt="{{ anime.name }} image" class="anime-img">
-        
+  <div class="top-list">
+    <article *ngFor="let anime of animesTop; let i = index" class="top-card reveal" [style.transition-delay]="(i * 0.1) + 's'">
+      <div class="top-rank">#{{ anime.top }}</div>
+      <div class="top-poster">
+        <img [src]="anime.img" [alt]="anime.name" loading="lazy">
+        <div class="top-poster-overlay"></div>
       </div>
-      <div class="anime-details">
-        <h4>Sinopsis</h4>
-        <p>{{ anime.sinopsis }}</p>
+      <div class="top-info">
+        <div class="top-info-header">
+          <h3>{{ anime.name }}</h3>
+          <div class="top-meta">
+            <span class="badge badge-orange" *ngIf="anime.genre">{{ anime.genre }}</span>
+            <span class="top-eps" *ngIf="anime.episodes"><i class="fas fa-tv"></i> {{ anime.episodes }} eps</span>
+          </div>
+        </div>
+        <div class="star-rating" *ngIf="anime.rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
+          <span class="score">{{ anime.rating }}/10</span>
+        </div>
+        <p class="top-synopsis">{{ anime.sinopsis }}</p>
       </div>
-    </div>
-    </div>
+    </article>
   </div>
-  
+</div>

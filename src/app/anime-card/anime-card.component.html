@@ -1,12 +1,14 @@
-
-
-<div class="anime-card">
-  <div class="anime-img-container">
-    <img [src]="animes.img" alt="{{ animes.title }}">
-    <div class="anime-info">
-      <p>{{ animes.title }}</p>
-    </div>
+<div class="card-poster">
+  <img [src]="animes.img" [alt]="animes.title" loading="lazy">
+  <div class="card-overlay">
+    <span class="card-play"><i class="fas fa-play"></i></span>
+  </div>
+  <span class="card-genre badge badge-orange" *ngIf="animes.genre">{{ animes.genre }}</span>
+</div>
+<div class="card-info">
+  <h4 class="card-title" [title]="animes.title">{{ animes.title }}</h4>
+  <div class="star-rating" *ngIf="animes.rating">
+    <i class="fas fa-star"></i>
+    <span class="score">{{ animes.rating }}</span>
   </div>
 </div>
-
-  

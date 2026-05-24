@@ -1,11 +1,36 @@
+<div class="container">
+  <app-section-title title="Estrenos Destacados" subtitle="Los animes que están dando de qué hablar"></app-section-title>
 
-<h1>¡Estrenos!</h1>
+  <div class="carousel-wrapper reveal"
+       (mouseenter)="onMouseEnter()"
+       (mouseleave)="onMouseLeave()"
+       (touchstart)="onTouchStart()"
+       (touchend)="onTouchEnd()">
 
-<div class="carousel">
-  <button (click)="goPrevious()">&#9664;</button>
-  <div class="carousel-cards">
-    <app-anime-card *ngFor="let anime of getVisibleAnimes()" [animes]="anime"></app-anime-card>
+    <button class="carousel-btn prev" (click)="scrollPrev()" aria-label="Anterior">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <div class="carousel-track" #carouselTrack (scroll)="onTrackScroll()">
+      <app-anime-card
+        *ngFor="let anime of extendedAnimes"
+        [animes]="anime"
+        class="carousel-item">
+      </app-anime-card>
+    </div>
+
+    <button class="carousel-btn next" (click)="scrollNext()" aria-label="Siguiente">
+      <i class="fas fa-chevron-right"></i>
+    </button>
   </div>
-  <button (click)="goNext()">&#9654;</button>
+
+  <div class="carousel-dots">
+    <button *ngFor="let anime of animes; let i = index"
+            class="dot"
+            [class.active]="i === currentIndex"
+            (click)="goToSlide(i)">
+    </button>
+  </div>
+
+  <app-estrenos-animes></app-estrenos-animes>
 </div>
-<app-estrenos-animes></app-estrenos-animes>

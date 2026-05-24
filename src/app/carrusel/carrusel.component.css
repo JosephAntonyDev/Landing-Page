@@ -1,27 +1,186 @@
-.carousel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 80px;
-    border-bottom: 3px solid #00a2e8;
-  }
-  button {
-    background: none;
-    color: #ffffff;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-  }
+:host {
+  display: block;
+}
 
-  h1 {
-    font-size: 40px;
-    color: aliceblue;
-  text-align: center;
-  margin-bottom: 5%;
-  }
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
 
-  .carousel-cards {
-    display: flex; /* Para que las tarjetas se alineen horizontalmente */
-    gap: 20px; /* Espacio entre las tarjetas */
+.carousel-track {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  width: 100%;
+  margin: 0 -0.75rem; /* Padding offset for inner spacing */
+  padding: 0.5rem 0;
+  scrollbar-width: none; /* Hide scrollbar Firefox */
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none; /* Hide scrollbar Chrome/Safari */
+}
+
+.carousel-item {
+  flex: 0 0 16.666%; /* 6 items per view on PC */
+  padding: 0 0.75rem;
+  box-sizing: border-box;
+  scroll-snap-align: start;
+  display: flex !important;
+  flex-direction: column;
+  align-items: stretch;
+  animation: fade-in 0.4s ease;
+}
+
+/* ── Absolute Floating Arrow Buttons ── */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(20, 20, 25, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-base);
+  font-size: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  opacity: 0; /* Hidden by default, fade in on wrapper hover */
+  pointer-events: none;
+}
+
+.carousel-wrapper:hover .carousel-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.carousel-btn.prev {
+  left: -1.25rem;
+}
+
+.carousel-btn.next {
+  right: -1.25rem;
+}
+
+.carousel-btn:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 0 15px rgba(255, 107, 44, 0.4);
+}
+
+/* ── Responsive Breakpoints ── */
+
+@media (max-width: 1200px) {
+  .carousel-item {
+    flex: 0 0 20%; /* 5 cards per view */
+  }
+}
+
+@media (max-width: 992px) {
+  .carousel-item {
+    flex: 0 0 25%; /* 4 cards per view */
   }
   
+  .carousel-btn {
+    opacity: 0.9;
+    pointer-events: auto;
+    width: 38px;
+    height: 38px;
+  }
+  
+  .carousel-btn.prev {
+    left: -0.5rem;
+  }
+
+  .carousel-btn.next {
+    right: -0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-item {
+    flex: 0 0 33.333%; /* 3 cards per view */
+  }
+  
+  .carousel-btn {
+    opacity: 0.9;
+    width: 36px;
+    height: 36px;
+  }
+
+  .carousel-btn.prev {
+    left: 0.25rem;
+  }
+
+  .carousel-btn.next {
+    right: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-track {
+    margin: 0 -0.5rem;
+  }
+
+  .carousel-item {
+    flex: 0 0 50%; /* exactly 2 cards */
+    padding: 0 0.5rem; /* tighter spacing on mobile */
+  }
+
+  .carousel-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .carousel-btn.prev {
+    left: 0.2rem;
+  }
+
+  .carousel-btn.next {
+    right: 0.2rem;
+  }
+}
+
+/* ── Dots indicator ── */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: var(--space-lg);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-surface-light);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-base);
+  padding: 0;
+}
+
+.dot.active {
+  background: var(--color-accent);
+  width: 24px;
+  border-radius: 4px;
+}
+
+.dot:hover:not(.active) {
+  background: var(--color-text-muted);
+}

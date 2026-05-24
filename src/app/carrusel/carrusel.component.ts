@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { isPlatformBrowser, NgFor, NgIf } from '@angular/common';
 import { AnimeCardComponent } from '../anime-card/anime-card.component';
 import { EstrenosAnimesComponent } from '../estrenos-animes/estrenos-animes.component';
@@ -11,15 +11,13 @@ import { SectionTitleComponent } from '../section-title/section-title.component'
   templateUrl: './carrusel.component.html',
   styleUrl: './carrusel.component.css'
 })
-export class CarruselComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CarruselComponent implements OnInit, AfterViewInit {
   @ViewChild('carouselTrack') carouselTrack!: ElementRef<HTMLDivElement>;
 
-  currentIndex: number = 0;
-  private autoPlayInterval: any;
-  private scrollTimeout: any;
   private isBrowser: boolean;
-  isPaused = false;
-  private isButtonScrolling = false;
+  
+  canScrollPrev = false;
+  canScrollNext = true;
 
   animes = [
     { title: 'Re:Zero', img: 'assets/carrusel/re.jpeg', genre: 'Isekai', rating: 8.8 },
@@ -32,163 +30,43 @@ export class CarruselComponent implements OnInit, OnDestroy, AfterViewInit {
     { title: 'Classroom of the Elite', img: 'assets/carrusel/R.jpg', genre: 'Psicológico', rating: 8.5 }
   ];
 
-  extendedAnimes: any[] = [];
-
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
   ngOnInit() {
-    this.setupExtendedAnimes();
-    if (this.isBrowser) {
-      window.addEventListener('resize', this.onResize.bind(this));
-    }
   }
 
   ngAfterViewInit() {
-    if (this.isBrowser) {
-      // Set initial scroll position to the middle section
-      setTimeout(() => {
-        this.centerTrack();
-        this.startAutoPlay();
-      }, 300);
-    }
-  }
-
-  ngOnDestroy() {
-    this.stopAutoPlay();
-    if (this.isBrowser) {
-      window.removeEventListener('resize', this.onResize.bind(this));
-    }
-  }
-
-  private onResize() {
-    this.centerTrack();
-  }
-
-  setupExtendedAnimes() {
-    // Clone N items at start and end for a 3x layout buffer
-    this.extendedAnimes = [...this.animes, ...this.animes, ...this.animes];
-  }
-
-  private centerTrack() {
-    if (!this.isBrowser || !this.carouselTrack) return;
-    const track = this.carouselTrack.nativeElement;
-    const N = this.animes.length;
-    const cardWidth = track.scrollWidth / 24;
-    
-    // Position perfectly at the start of the middle N items
-    track.scrollLeft = N * cardWidth;
+    this.checkScrollButtons();
   }
 
   scrollNext() {
     if (!this.isBrowser || !this.carouselTrack) return;
     const track = this.carouselTrack.nativeElement;
-    const cardWidth = track.scrollWidth / 24;
+    const cardWidth = track.scrollWidth / this.animes.length;
     
-    this.isButtonScrolling = true;
     track.scrollBy({ left: cardWidth * 2, behavior: 'smooth' });
   }
 
   scrollPrev() {
     if (!this.isBrowser || !this.carouselTrack) return;
     const track = this.carouselTrack.nativeElement;
-    const cardWidth = track.scrollWidth / 24;
+    const cardWidth = track.scrollWidth / this.animes.length;
     
-    this.isButtonScrolling = true;
     track.scrollBy({ left: -cardWidth * 2, behavior: 'smooth' });
   }
 
   onTrackScroll() {
     if (!this.isBrowser || !this.carouselTrack) return;
-
-    // Update dot indicators in real-time during scroll
-    this.updateCurrentIndex();
-
-    // If button-triggered smooth scroll is running, debounce the jump
-    if (this.isButtonScrolling) {
-      if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
-      this.scrollTimeout = setTimeout(() => {
-        this.isButtonScrolling = false;
-        this.handleBoundaryJump();
-      }, 350); // wait for smooth scroll to finish
-      return;
-    }
-
-    // For natural swipes / trackpad scrolling, jump instantly!
-    this.handleBoundaryJump();
+    this.checkScrollButtons();
   }
 
-  private updateCurrentIndex() {
+  checkScrollButtons() {
     if (!this.isBrowser || !this.carouselTrack) return;
     const track = this.carouselTrack.nativeElement;
-    const N = this.animes.length;
-    const cardWidth = track.scrollWidth / 24;
-
-    // Simple rounded modulo of raw scrollLeft is 100% safe from subpixel rounding bugs
-    this.currentIndex = (Math.round(track.scrollLeft / cardWidth) % N + N) % N;
-  }
-
-  private handleBoundaryJump() {
-    if (!this.isBrowser || !this.carouselTrack) return;
-    const track = this.carouselTrack.nativeElement;
-    const scrollLeft = track.scrollLeft;
-    const N = this.animes.length;
-    const cardWidth = track.scrollWidth / 24;
-
-    // Balanced thresholds (7 and 17) protect the first and last active slides
-    // on all screen sizes, while ensuring it never gets stuck at maxScroll.
-    const jumpThresholdLeft = 7 * cardWidth;
-    const jumpThresholdRight = 17 * cardWidth;
-    const jumpOffset = N * cardWidth;
-
-    if (scrollLeft >= jumpThresholdRight) {
-      track.scrollLeft = scrollLeft - jumpOffset;
-    } else if (scrollLeft <= jumpThresholdLeft) {
-      track.scrollLeft = scrollLeft + jumpOffset;
-    }
-  }
-
-  goToSlide(index: number) {
-    if (!this.isBrowser || !this.carouselTrack) return;
-    const track = this.carouselTrack.nativeElement;
-    const cardWidth = track.scrollWidth / 24;
-    const N = this.animes.length;
     
-    this.isButtonScrolling = true;
-    track.scrollTo({ left: N * cardWidth + index * cardWidth, behavior: 'smooth' });
-  }
-
-  onMouseEnter() {
-    this.isPaused = true;
-    this.stopAutoPlay();
-  }
-
-  onMouseLeave() {
-    this.isPaused = false;
-    this.startAutoPlay();
-  }
-
-  onTouchStart() {
-    this.isPaused = true;
-    this.stopAutoPlay();
-  }
-
-  onTouchEnd() {
-    this.isPaused = false;
-    this.startAutoPlay();
-  }
-
-  private startAutoPlay() {
-    this.autoPlayInterval = setInterval(() => {
-      this.scrollNext();
-    }, 5000);
-  }
-
-  private stopAutoPlay() {
-    if (this.autoPlayInterval) {
-      clearInterval(this.autoPlayInterval);
-      this.autoPlayInterval = null;
-    }
+    this.canScrollPrev = track.scrollLeft > 5;
+    this.canScrollNext = Math.ceil(track.scrollLeft + track.clientWidth) < track.scrollWidth - 5;
   }
 }

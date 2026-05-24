@@ -40,47 +40,75 @@
 /* ── Absolute Floating Arrow Buttons ── */
 .carousel-btn {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0.5rem;
+  bottom: 0.5rem;
   z-index: 10;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(20, 20, 25, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--color-text);
+  width: 50px;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: var(--transition-base);
-  font-size: 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  opacity: 0; /* Hidden by default, fade in on wrapper hover */
+  transition: opacity 0.3s ease, background 0.3s ease;
+  font-size: 1.5rem;
+  opacity: 0;
   pointer-events: none;
 }
 
-.carousel-wrapper:hover .carousel-btn {
+/* Pseudo-element for smooth gradient backdrop */
+.carousel-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 150px;
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.carousel-btn.prev::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+}
+
+.carousel-btn.next::before {
+  right: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+}
+
+.carousel-wrapper:hover .carousel-btn:not(.hidden) {
   opacity: 1;
   pointer-events: auto;
 }
 
 .carousel-btn.prev {
-  left: -1.25rem;
+  left: -0.75rem;
 }
 
 .carousel-btn.next {
-  right: -1.25rem;
+  right: -0.75rem;
+}
+
+.carousel-btn.hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.carousel-btn i {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .carousel-btn:hover {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
-  color: #fff;
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 0 15px rgba(255, 107, 44, 0.4);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.carousel-btn:hover i {
+  transform: scale(1.2);
+  color: var(--color-accent);
 }
 
 /* ── Responsive Breakpoints ── */
@@ -97,38 +125,15 @@
   }
   
   .carousel-btn {
-    opacity: 0.9;
+    opacity: 1;
     pointer-events: auto;
-    width: 38px;
-    height: 38px;
-  }
-  
-  .carousel-btn.prev {
-    left: -0.5rem;
-  }
-
-  .carousel-btn.next {
-    right: -0.5rem;
+    width: 40px;
   }
 }
 
 @media (max-width: 768px) {
   .carousel-item {
     flex: 0 0 33.333%; /* 3 cards per view */
-  }
-  
-  .carousel-btn {
-    opacity: 0.9;
-    width: 36px;
-    height: 36px;
-  }
-
-  .carousel-btn.prev {
-    left: 0.25rem;
-  }
-
-  .carousel-btn.next {
-    right: 0.25rem;
   }
 }
 
@@ -143,44 +148,15 @@
   }
 
   .carousel-btn {
-    width: 34px;
-    height: 34px;
+    width: 35px;
+    font-size: 1.2rem;
   }
 
   .carousel-btn.prev {
-    left: 0.2rem;
+    left: -0.5rem;
   }
 
   .carousel-btn.next {
-    right: 0.2rem;
+    right: -0.5rem;
   }
-}
-
-/* ── Dots indicator ── */
-.carousel-dots {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: var(--space-lg);
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-surface-light);
-  border: none;
-  cursor: pointer;
-  transition: var(--transition-base);
-  padding: 0;
-}
-
-.dot.active {
-  background: var(--color-accent);
-  width: 24px;
-  border-radius: 4px;
-}
-
-.dot:hover:not(.active) {
-  background: var(--color-text-muted);
 }

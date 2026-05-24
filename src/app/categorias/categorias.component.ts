@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
+import { NgFor } from '@angular/common';
 import { TopAnimes } from '../interfaces/top-animes';
+import { SectionTitleComponent } from '../section-title/section-title.component';
 
 @Component({
   selector: 'app-categorias',
+  standalone: true,
+  imports: [NgFor, SectionTitleComponent],
   templateUrl: './categorias.component.html',
   styleUrl: './categorias.component.css'
 })
@@ -11,40 +15,40 @@ export class CategoriasComponent {
     {
       top: 1,
       name: 'Shonen',
-      sinopsis: 'Enfocado en un público juvenil masculino, suele incluir acción, aventuras, amistad y superación. Ejemplos: Naruto, Dragon Ball.',
-      content: 'Fecha de estreno: Finales de 2024',
+      sinopsis: 'Enfocado en un público juvenil masculino, suele incluir acción, aventuras, amistad y superación de límites personales. Ejemplos clásicos: Naruto, Dragon Ball, One Piece.',
+      content: 'Género Demográfico',
       img: 'assets/categorys/shone.jpg',
       fechaEstreno: new Date('2024-12-01')
     },
     {
       top: 2,
       name: 'Shojo',
-      sinopsis: 'Dirigido a un público femenino joven, con temas de romance, drama y crecimiento personal. Ejemplos: Sailor Moon, Fruits Basket.',
-      content: 'Fecha de estreno: 2024',
+      sinopsis: 'Dirigido principalmente a un público femenino joven. Se centra en las relaciones interpersonales, romance, drama y el desarrollo emocional de los personajes. Ejemplos: Sailor Moon, Fruits Basket.',
+      content: 'Género Demográfico',
       img: 'assets/categorys/shojo.jpeg',
       fechaEstreno: new Date('2024-10-10')
     },
     {
       top: 3,
       name: 'Seinen',
-      sinopsis: 'Para un público más adulto, con tramas más complejas y temas maduros, incluyendo violencia o dilemas existenciales. Ejemplos: Berserk, Tokyo Ghoul.',
-      content: 'Fecha de estreno: 2024',
+      sinopsis: 'Dirigido a hombres jóvenes y adultos. Aborda tramas más complejas, realistas y temas maduros, con un enfoque psicológico profundo o dilemas morales. Ejemplos: Berserk, Tokyo Ghoul, Monster.',
+      content: 'Género Demográfico',
       img: 'assets/categorys/seinen.jpeg',
       fechaEstreno: new Date('2024-08-08')
     },
     {
       top: 4,
       name: 'Josei',
-      sinopsis: 'Similar al shojo, pero dirigido a mujeres adultas, con un enfoque en relaciones románticas más realistas y temas cotidianos. Ejemplos: Nodame Cantabile, Honey and Clover.',
-      content: 'Fecha de estreno: 2024',
+      sinopsis: 'Dirigido a mujeres adultas. Explora las relaciones amorosas de una manera más madura y realista, y aborda la vida cotidiana y profesional de los personajes. Ejemplos: Nodame Cantabile, Honey and Clover.',
+      content: 'Género Demográfico',
       img: 'assets/categorys/josei.jpg',
       fechaEstreno: new Date('2024-11-15')
     },
     {
       top: 5,
       name: 'Mecha',
-      sinopsis: 'Animes centrados en robots gigantes y tecnología avanzada, combinando ciencia ficción y acción. Ejemplos: Gundam, Neon Genesis Evangelion.',
-      content: 'Fecha de estreno: 2024',
+      sinopsis: 'Centrado en robots gigantes de combate, pilotos con dilemas existenciales y tecnología militar futurista. Combina ciencia ficción profunda con acción bélica. Ejemplos: Neon Genesis Evangelion, Mobile Suit Gundam.',
+      content: 'Subgénero Temático',
       img: 'assets/categorys/mecha.jpeg',
       fechaEstreno: new Date('2024-09-09')
     }

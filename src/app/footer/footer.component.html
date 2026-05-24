@@ -1,27 +1,40 @@
-<div class="footer-container">
-    <div class="footer-line-container">
-      <div class="footer-line"></div>
-      <!-- El círculo solo aparece si showBackToTop es true -->
-      <div class="back-to-top" *ngIf="showBackToTop" (click)="scrollToTop()">
-        <i class="fas fa-chevron-up"></i>
+<footer class="app-footer">
+  <div class="footer-divider"></div>
+
+  <button class="back-to-top" [class.visible]="showBackToTop" (click)="scrollToTop()" aria-label="Volver arriba">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <div class="footer-content container">
+    <div class="footer-brand">
+      <span class="footer-logo">Anim<span class="accent">Top</span></span>
+      <p>Tu portal definitivo para explorar rankings y estrenos del universo anime.</p>
+    </div>
+
+    <div class="footer-links">
+      <h5>Navegación</h5>
+      <ul>
+        <li><a href="#hero">Inicio</a></li>
+        <li><a href="#top">Los 5 Mejores</a></li>
+        <li><a href="#estrenos">Estrenos</a></li>
+        <li><a href="#categorias">Categorías</a></li>
+        <li><a href="#ver">Dónde Ver</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-social">
+      <h5>Síguenos</h5>
+      <div class="social-row">
+        <a href="https://x.com/VixelTorn" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/josephantony.vx/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://github.com/JosephAntonyDev" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
       </div>
     </div>
-    <div class="footer-icons">
-      <a href="https://twitter.com" target="_blank" aria-label="Twitter">
-        <i class="fab fa-twitter"></i>
-      </a>
-      <a href="https://instagram.com" target="_blank" aria-label="Instagram">
-        <i class="fab fa-instagram"></i>
-      </a>
-      <a href="https://facebook.com" target="_blank" aria-label="Facebook">
-        <i class="fab fa-facebook"></i>
-      </a>
-      <a href="https://github.com" target="_blank" aria-label="GitHub">
-        <i class="fab fa-github"></i>
-      </a>
-      <a href="https://whatsapp.com" target="_blank" aria-label="WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-      </a>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <p>&copy; 2026 AnimTop. Todos los derechos reservados.</p>
     </div>
   </div>
-  
+</footer>

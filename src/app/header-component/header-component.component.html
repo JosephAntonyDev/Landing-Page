@@ -1,20 +1,30 @@
-<header>
-    <nav class="navbar">
-      <div class="logo">
-        <div>
-            <img src="icon.ico" alt="AnimTop Logo" class="logo-img">
-            <span><a routerLink="/" >AnimTop</a></span>
-        </div>
-        
-        <ul class="nav-links">
-          <li><a routerLink="/vistos">Más vistos</a></li>
-          <li><a routerLink="/estrenos">Estrenos</a></li>
-          <li><a routerLink="/ver">Dónde ver</a></li>
-          <li><a routerLink="/categorias">Categorías</a></li>
-        </ul>
-      </div>
-      
-    </nav>
-  </header>
+<header [ngClass]="{ 'header-scrolled': isScrolled }">
+  <nav class="header-nav container">
+    <div class="logo" (click)="scrollToSection('hero')">
+      <span class="logo-text">Anim<span class="logo-accent">Top</span></span>
+    </div>
 
-  
+    <ul class="nav-links" role="menubar">
+      <li *ngFor="let item of menuItems" role="none">
+        <a (click)="scrollToSection(item.id)"
+           [class.active]="activeSection === item.id"
+           role="menuitem">{{ item.label }}</a>
+      </li>
+    </ul>
+
+    <button class="menu-toggle" (click)="toggleMenu()" aria-label="Menu" [class.open]="isMenuOpen">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" [class.open]="isMenuOpen">
+    <ul>
+      <li *ngFor="let item of menuItems; let i = index"
+          [style.transition-delay]="(i * 0.05) + 's'">
+        <a (click)="scrollToSection(item.id)"
+           [class.active]="activeSection === item.id">{{ item.label }}</a>
+      </li>
+    </ul>
+  </div>
+</header>

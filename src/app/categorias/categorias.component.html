@@ -1,24 +1,16 @@
-<div class="category">
-<h1>Categorías y generos en el <br>
-    mundo el anime.</h1>
-</div>
+<section class="categorias">
+  <div class="container">
+    <app-section-title title="Categorías" subtitle="Explora los géneros que definen el anime"></app-section-title>
 
-<div class="top-animes-container-c">
-    
-    <div *ngFor="let anime of animesTop" class="anime-card-c">
-      <h3>{{ anime.top }}. {{ anime.name }}</h3>
-
-      <div class="anime-card2-v"> 
-        <div class="container">
-      <div class="anime-content-v">
-        <img [src]="anime.img" alt="{{ anime.name }} image" class="anime-img-c">
-        
-      </div>
-      <div class="anime-details-c">
-        <h4>Descripción</h4>
-        <p>{{ anime.sinopsis }}</p>
-      </div>
-    </div>
-    </div>
+    <div class="cat-grid">
+      <article *ngFor="let cat of animesTop" class="cat-card reveal">
+        <img [src]="cat.img" [alt]="cat.name" loading="lazy">
+        <div class="cat-overlay">
+          <span class="cat-index">0{{ cat.top }}</span>
+          <h3>{{ cat.name }}</h3>
+          <p>{{ cat.sinopsis }}</p>
+        </div>
+      </article>
     </div>
   </div>
+</section>

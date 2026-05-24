@@ -1,31 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-footer',
+  standalone: true,
+  imports: [NgIf],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css'
 })
-export class FooterComponent implements OnInit {
-  showBackToTop: boolean = true;  // Inicialmente mostrar el círculo
+export class FooterComponent {
+  showBackToTop: boolean = false;
+  private isBrowser: boolean;
 
-  constructor(private router: Router) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
-  ngOnInit(): void {
-    // Escucha cambios de ruta
-    this.router.events.subscribe(() => {
-      // Define las rutas donde no quieres mostrar el círculo
-      const noCircleRoutes = ['/ver'];
-      
-      if (noCircleRoutes.includes(this.router.url)) {
-        this.showBackToTop = false;  // Ocultar el círculo en estas rutas
-      } else {
-        this.showBackToTop = true;   // Mostrar el círculo en otras rutas
-      }
-    });
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    if (this.isBrowser) {
+      // Show button when user scrolls down more than 400px
+      this.showBackToTop = window.scrollY > 400;
+    }
   }
 
   scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (this.isBrowser) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 }

@@ -1,9 +1,14 @@
-<h1>Donde ver los animes</h1>
+<section class="donde-ver">
+  <div class="container">
+    <app-section-title title="Dónde Ver" subtitle="Las mejores plataformas para disfrutar anime"></app-section-title>
 
-<div class="carousel-donde">
-  <button (click)="goPrevious()">&#9664;</button>
-  <div class="carousel-cards-D">
-    <app-anime-card *ngFor="let anime of getVisibleAnimes()" [animes]="anime"></app-anime-card>
+    <div class="platforms-grid">
+      <article *ngFor="let p of animes" class="platform-item reveal">
+        <div class="platform-logo">
+          <img [src]="p.img" [alt]="p.title" loading="lazy">
+        </div>
+        <span class="platform-name">{{ p.title }}</span>
+      </article>
+    </div>
   </div>
-  <button (click)="goNext()">&#9654;</button>
-</div>
+</section>

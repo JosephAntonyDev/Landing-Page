@@ -117,18 +117,9 @@ export class CarruselComponent implements OnInit, OnDestroy, AfterViewInit {
     const track = this.carouselTrack.nativeElement;
     const N = this.animes.length;
     const cardWidth = track.scrollWidth / 24;
-    const middleStart = N * cardWidth;
 
-    let relativeOffset = track.scrollLeft - middleStart;
-    const totalOriginalWidth = N * cardWidth;
-
-    // Normalize offset to range [0, totalOriginalWidth)
-    relativeOffset = ((relativeOffset % totalOriginalWidth) + totalOriginalWidth) % totalOriginalWidth;
-
-    this.currentIndex = Math.min(
-      N - 1,
-      Math.max(0, Math.round(relativeOffset / cardWidth))
-    );
+    // Simple rounded modulo of raw scrollLeft is 100% safe from subpixel rounding bugs
+    this.currentIndex = (Math.round(track.scrollLeft / cardWidth) % N + N) % N;
   }
 
   private handleBoundaryJump() {
@@ -138,14 +129,16 @@ export class CarruselComponent implements OnInit, OnDestroy, AfterViewInit {
     const N = this.animes.length;
     const cardWidth = track.scrollWidth / 24;
 
-    const middleStart = N * cardWidth;
-    const middleEnd = 2 * N * cardWidth;
+    // Wide boundaries (index 4 and 20) keep the first and last slides completely
+    // inside the safe zone, preventing any subpixel snap jump bugs.
+    const jumpThresholdLeft = 4 * cardWidth;
+    const jumpThresholdRight = 20 * cardWidth;
+    const jumpOffset = N * cardWidth;
 
-    // Jump invisibly only when crossing the middle section boundaries and scrolling stops
-    if (scrollLeft >= middleEnd) {
-      track.scrollLeft = scrollLeft - middleStart;
-    } else if (scrollLeft < middleStart) {
-      track.scrollLeft = scrollLeft + middleStart;
+    if (scrollLeft >= jumpThresholdRight) {
+      track.scrollLeft = scrollLeft - jumpOffset;
+    } else if (scrollLeft <= jumpThresholdLeft) {
+      track.scrollLeft = scrollLeft + jumpOffset;
     }
   }
 

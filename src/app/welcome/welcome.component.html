@@ -1,42 +1,92 @@
-<div class="text-info-home">
-    <h1>¡Welcome to AnimTop!</h1>
-    <span>¡Bienvenido a AnimTop! Aquí encontrarás los mejores animes, los más vistos y las últimas novedades <br> del mundo del anime. <br>
-        Explora los estrenos más esperados, próximos lanzamientos, y descubre listas por categorías <br>
-        para encontrar tu próximo anime favorito. <br>
-         ¡Sumérgete en el mundo del anime con nosotros!</span>
-</div>
-<div class="text-info-home">
-    <h1>¿En que nos basamos?</h1>
-    <div class="description-info-home">
-        <div>
-             <h2>Critica:</h2>
-             <span>Analizamos opiniones <br>
-                de expertos y <br>
-                fanáticos para <br>
-                ofrecerte una visión <br>
-                completa sobre cada anime.</span>
+<!-- HERO -->
+<section id="hero" class="hero">
+  <div class="hero-inner container">
+    <div class="hero-content">
+      <!-- Title (Updated to "mejores animes") -->
+      <h1 class="hero-title reveal">
+        Descubre los<br>
+        <span class="gradient-text">mejores animes</span><br>
+        del mundo.
+      </h1>
+      
+      <!-- Layered Collage visual (placed between title and description) -->
+      <div class="hero-visual reveal">
+        <div class="hero-composition">
+          <!-- Main Poster Card (Anime del Mes) -->
+          <div class="hero-card main-card">
+            <img src="assets/top/one-piece.jpg" alt="One Piece - Anime del Mes" loading="eager">
+            <div class="hero-image-glow"></div>
+          </div>
+          
+          <!-- Secondary Overlapping Card (Estreno Destacado) -->
+          <div class="hero-card secondary-card">
+            <img src="assets/carrusel/re.jpeg" alt="Re:Zero S3 - Estreno Destacado" loading="lazy">
+            <div class="card-caption">Re:Zero S3</div>
+          </div>
         </div>
-        <div>
-             <h2>Calificación:</h2>
-             <span>Consideramos las puntuaciones <br>
-                de diversas plataformas para <br>
-                 destacar aquellos con mayor <br>
-                  reconocimiento y calidad.</span>
+      </div>
+
+      <!-- Description -->
+      <p class="hero-desc reveal">
+        Rankings basados en crítica, calificación y éxito mundial.
+        Explora estrenos, categorías y encuentra tu próximo anime favorito.
+      </p>
+
+      <!-- Actions -->
+      <div class="hero-actions reveal">
+        <button class="btn-primary" (click)="scrollToRankings()">
+          <i class="fas fa-compass"></i> Explorar Rankings
+        </button>
+        <button class="btn-outline" (click)="scrollToSection('estrenos')">
+          <i class="fas fa-bolt"></i> Estrenos
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="hero-stats reveal">
+        <div class="stat">
+          <span class="stat-number">5+</span>
+          <span class="stat-label">Top Animes</span>
         </div>
-        <div>
-             <h2>Exito:</h2>
-             <span>Evaluamos el impacto y la <br>
-                popularidad de cada anime, <br>
-                midiendo su éxito en términos <br>
-                de audiencia y seguidores.</span>
+        <div class="stat">
+          <span class="stat-number">8+</span>
+          <span class="stat-label">Plataformas</span>
         </div>
+        <div class="stat">
+          <span class="stat-number">5</span>
+          <span class="stat-label">Categorías</span>
+        </div>
+      </div>
     </div>
-    
-</div>
+  </div>
+</section>
 
-<div class="start-text-home">
-    <h1>¡Comencemos!</h1>
-    <p>Con el primer top :)</p>
-</div>
+<div class="section-divider"></div>
 
-<app-top-mejores-animes></app-top-mejores-animes>
+<section id="top" class="section">
+  <app-top-mejores-animes></app-top-mejores-animes>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="estrenos" class="section">
+  <app-carrusel></app-carrusel>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="vistos" class="section">
+  <app-mas-vistos></app-mas-vistos>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="categorias" class="section">
+  <app-categorias></app-categorias>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="ver" class="section">
+  <app-donde-ver></app-donde-ver>
+</section>

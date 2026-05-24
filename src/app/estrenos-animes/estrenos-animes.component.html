@@ -1,20 +1,26 @@
-<div class="animes-container-es">
-    <h2>Proximos estrenos.</h2>
-    
-    <div *ngFor="let anime of animesTop" class="anime-card-es">
-      <h3>{{ anime.top }}. {{ anime.name }}</h3>
+<div class="estrenos-wrapper">
+  <h3 class="estrenos-heading">Próximos Estrenos</h3>
 
-      <div class="anime-card2-es"> 
-      <div class="anime-content-es">
-        <img [src]="anime.img" alt="{{ anime.name }} image" class="anime-img-es">
-        
+  <div class="estrenos-grid">
+    <article *ngFor="let anime of animesTop; let i = index"
+             class="estreno-card reveal"
+             [style.animation-delay]="(i * 0.1) + 's'">
+      <div class="estreno-image">
+        <img [src]="anime.img" [alt]="anime.name" loading="lazy">
+        <span class="estreno-rank">#{{ anime.top }}</span>
       </div>
-      <div class="anime-details-es">
-        <h4>Sinopsis</h4>
+      <div class="estreno-details">
+        <div class="estreno-date">
+          <i class="fas fa-calendar"></i>
+          <span>{{ anime.content }}</span>
+        </div>
+        <h4>{{ anime.name }}</h4>
+        <div class="estreno-tags">
+          <span class="badge badge-orange" *ngIf="anime.genre">{{ anime.genre }}</span>
+          <span class="badge badge-surface" *ngIf="anime.episodes">{{ anime.episodes }} eps</span>
+        </div>
         <p>{{ anime.sinopsis }}</p>
-        <p> Fecha de estreno: <br>
-          {{anime.fechaEstreno}}</p>
       </div>
-    </div>
-    </div>
+    </article>
+  </div>
 </div>

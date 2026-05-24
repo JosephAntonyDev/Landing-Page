@@ -19,6 +19,7 @@ export class CarruselComponent implements OnInit, OnDestroy, AfterViewInit {
   private scrollTimeout: any;
   private isBrowser: boolean;
   isPaused = false;
+  private isButtonScrolling = false;
 
   animes = [
     { title: 'Re:Zero', img: 'assets/carrusel/re.jpeg', genre: 'Isekai', rating: 8.8 },
@@ -85,7 +86,7 @@ export class CarruselComponent implements OnInit, OnDestroy, AfterViewInit {
     const track = this.carouselTrack.nativeElement;
     const cardWidth = track.scrollWidth / 24;
     
-    // Slide by 2 card widths smoothly
+    this.isButtonScrolling = true;
     track.scrollBy({ left: cardWidth * 2, behavior: 'smooth' });
   }
 
@@ -94,6 +95,7 @@ export class CarruselComponent implements OnInit, OnDestroy, AfterViewInit {
     const track = this.carouselTrack.nativeElement;
     const cardWidth = track.scrollWidth / 24;
     
+    this.isButtonScrolling = true;
     track.scrollBy({ left: -cardWidth * 2, behavior: 'smooth' });
   }
 
@@ -103,13 +105,18 @@ export class CarruselComponent implements OnInit, OnDestroy, AfterViewInit {
     // Update dot indicators in real-time during scroll
     this.updateCurrentIndex();
 
-    // Debounce the boundary jump until the scrolling animation stops
-    if (this.scrollTimeout) {
-      clearTimeout(this.scrollTimeout);
+    // If button-triggered smooth scroll is running, debounce the jump
+    if (this.isButtonScrolling) {
+      if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
+      this.scrollTimeout = setTimeout(() => {
+        this.isButtonScrolling = false;
+        this.handleBoundaryJump();
+      }, 350); // wait for smooth scroll to finish
+      return;
     }
-    this.scrollTimeout = setTimeout(() => {
-      this.handleBoundaryJump();
-    }, 150);
+
+    // For natural swipes / trackpad scrolling, jump instantly!
+    this.handleBoundaryJump();
   }
 
   private updateCurrentIndex() {
@@ -129,10 +136,10 @@ export class CarruselComponent implements OnInit, OnDestroy, AfterViewInit {
     const N = this.animes.length;
     const cardWidth = track.scrollWidth / 24;
 
-    // Wide boundaries (index 4 and 20) keep the first and last slides completely
-    // inside the safe zone, preventing any subpixel snap jump bugs.
-    const jumpThresholdLeft = 4 * cardWidth;
-    const jumpThresholdRight = 20 * cardWidth;
+    // Balanced thresholds (7 and 17) protect the first and last active slides
+    // on all screen sizes, while ensuring it never gets stuck at maxScroll.
+    const jumpThresholdLeft = 7 * cardWidth;
+    const jumpThresholdRight = 17 * cardWidth;
     const jumpOffset = N * cardWidth;
 
     if (scrollLeft >= jumpThresholdRight) {
@@ -148,6 +155,7 @@ export class CarruselComponent implements OnInit, OnDestroy, AfterViewInit {
     const cardWidth = track.scrollWidth / 24;
     const N = this.animes.length;
     
+    this.isButtonScrolling = true;
     track.scrollTo({ left: N * cardWidth + index * cardWidth, behavior: 'smooth' });
   }
 
